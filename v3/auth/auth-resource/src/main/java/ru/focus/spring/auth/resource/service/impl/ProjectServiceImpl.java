@@ -10,40 +10,24 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import static ru.focus.spring.auth.resource.service.ProjectStore.PROJECT_LIST;
+
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
-    private static final List<ProjectDto> projects = List.of(
-        createProject("00000000-0000-0000-0000-000000000001", "Первый", "alex"),
-        createProject("00000000-0000-0000-0000-000000000002", "Второй", "max"),
-        createProject("00000000-0000-0000-0000-000000000003", "Третий", "alex"),
-        createProject("00000000-0000-0000-0000-000000000004", "Третий", "max"),
-        createProject("00000000-0000-0000-0000-000000000005", "Пятый", "alex"),
-        createProject("00000000-0000-0000-0000-000000000006", "Шестой", "anna"),
-        createProject("00000000-0000-0000-0000-000000000007", "Седьмой", null)
-    );
-
     @Override
     public List<ProjectDto> getList() {
-        return projects.stream()
+        return PROJECT_LIST.stream()
             .filter(filterByOwner())
             .toList();
     }
 
     @Override
     public ProjectDto getById(final String id) {
-        return projects.stream()
+        return PROJECT_LIST.stream()
             .filter(p -> p.getId().equals(id))
             .findFirst()
             .orElseThrow(() -> new RuntimeException("Проект не найден"));
-    }
-
-    private static ProjectDto createProject(final String id, final String name, final String ownerName) {
-        return ProjectDto.builder()
-            .id(id)
-            .name(name)
-            .ownerName(ownerName)
-            .build();
     }
 
     private Predicate<ProjectDto> filterByOwner() {
