@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/bootstrap.min.css}">
+    <title>Главная</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2">Имя пользователя:</div>
+        <div class="col-2" th:text="${user_name}"></div>
+    </div>
+    <div class="row">
+        <div class="col-2">Проекты:</div>
+        <div class="col-2">
+            <div><a target="_blank" href="/project/1">Проект №1</a></div>
+            <div><a target="_blank" href="/project/2">Проект №2</a></div>
+            <div><a target="_blank" href="/project/3">Проект №3</a></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+buildscript {
+    ext {
+        lombokVersion = "1.18.34"
+        springBootVersion = "3.4.0"
+        springDependencyManagementVersion = "1.1.6"
+        springCloudVersion = "2024.0.0"
+    }
+}
+
+allprojects {
+    apply plugin: 'java'
+    sourceCompatibility = JavaVersion.VERSION_17
+    compileJava.options.encoding = "UTF-8"
+    compileTestJava.options.encoding = "UTF-8"
+
+    repositories {
+        mavenCentral()
+    }
+}
