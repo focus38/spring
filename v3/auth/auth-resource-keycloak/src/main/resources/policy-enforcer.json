@@ -1,0 +1,8 @@
+{
+  "realm": "test",
+  "auth-server-url": "http://localhost:8989/",
+  "resource": "bear",
+  "credentials": {
+    "secret": "Ii3jkFhVTzZxYqExerDWv1ZkuKmYq53o"
+  }
+}

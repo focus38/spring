@@ -1,0 +1,3 @@
+### Должен вернуть 401 ошибку, потому что в запросе не передан заголовок Authorization: Bearer {access_token}
+GET http://localhost:8091/api/v1/project
+Accept: *

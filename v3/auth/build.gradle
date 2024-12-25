@@ -4,6 +4,7 @@ buildscript {
         springBootVersion = "3.4.0"
         springDependencyManagementVersion = "1.1.6"
         springCloudVersion = "2024.0.0"
+        keycloakLibVersion = "25.0.2"
     }
 }
 

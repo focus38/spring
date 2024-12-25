@@ -5,28 +5,28 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.focus.spring.auth.exception.AppException;
+
+import java.time.LocalDateTime;
 
 @Controller
 public class DefaultErrorController implements ErrorController {
 
     @RequestMapping("/error")
     public String handleError(final Model model, final HttpServletRequest request) {
-        final String errorMessage = getErrorMessage(request);
-        if (errorMessage.startsWith("[access_denied]")) {
-            model.addAttribute("errorTitle", "Access Denied");
-            model.addAttribute("errorMessage", "You have denied access.");
-        } else {
-            model.addAttribute("errorTitle", "Error");
-            model.addAttribute("errorMessage", errorMessage);
+        final Throwable ex = getException(request);
+        model.addAttribute("timestamp", LocalDateTime.now());
+        model.addAttribute("message", ex.getMessage());
+        if (ex.getCause() instanceof final AppException appex) {
+            model.addAttribute("url", appex.getUrl());
+            model.addAttribute("status", appex.getStatus());
         }
         return "error";
     }
 
-    private String getErrorMessage(HttpServletRequest request) {
-        String errorMessage = (String) request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
-        return StringUtils.hasText(errorMessage) ? errorMessage : "";
+    private Throwable getException(final HttpServletRequest request) {
+        return (Throwable) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
     }
 
 }

@@ -27,9 +27,15 @@ public class HomeController {
 
     @GetMapping("/home/project")
     public String getProjects(final Model model) {
-        final List<ProjectDto> projects = projectClient.getList();
+        final List<ProjectDto> projects = projectClient.getProjectList();
         model.addAttribute("projects", projects);
         return "projects";
     }
 
+    @GetMapping("/home/task")
+    public String getTasks(final Model model) {
+        final List<String> tasks = projectClient.getTaskList();
+        model.addAttribute("tasks", tasks);
+        return "tasks";
+    }
 }

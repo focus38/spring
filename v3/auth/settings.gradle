@@ -1,3 +1,4 @@
 rootProject.name = 'auth'
 include 'auth-login'
 include 'auth-resource'
+include 'auth-resource-keycloak'

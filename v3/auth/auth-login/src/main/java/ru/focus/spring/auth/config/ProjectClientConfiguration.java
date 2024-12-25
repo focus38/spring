@@ -1,5 +1,7 @@
 package ru.focus.spring.auth.config;
 
+import feign.Response;
+import feign.codec.ErrorDecoder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
@@ -9,6 +11,11 @@ import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2A
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.util.StreamUtils;
+import ru.focus.spring.auth.exception.AppException;
+
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class ProjectClientConfiguration {
 
@@ -33,5 +40,21 @@ public class ProjectClientConfiguration {
             oAuth2ClientProperties.getRegistration().keySet().iterator().next(),
             manager
         );
+    }
+
+    @Bean
+    public ErrorDecoder errorDecoder() {
+        return (s, response) -> {
+            final String message = getBody(response);
+            return new AppException(response.status(), response.request().url(), message);
+        };
+    }
+
+    private String getBody(final Response response) {
+        try (final InputStream stream = response.body().asInputStream()) {
+            return StreamUtils.copyToString(stream, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            return "Не удалось считать сообщение об ошибке";
+        }
     }
 }
